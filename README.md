@@ -11,8 +11,8 @@ JavaFX is a set of graphics and media packages that enables developers to create
 ## Repository Structure 🔰
 This repository is organized into three main sections, each serving a distinct purpose:
 - **Cheat-Sheet-Concepts** - Foundational knowledge, Key principles, And Techniques
-- **App-Projects** - A collection of fully implemented app projects
-- **Game-Projects** - Game development skills, Creativity, And Technical expertise.
+- **Source-Code-App-Projects** - A collection of fully implemented app projects
+- **Source-Code-Game-Projects** - Game development skills, Creativity, And Technical expertise.
 
 ## Support This Repository ☕
 
