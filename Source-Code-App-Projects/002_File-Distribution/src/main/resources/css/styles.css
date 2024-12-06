@@ -1,0 +1,23 @@
+.custom-menu-bar {
+    -fx-background-color: #091057;
+}
+
+.custom-menu-bar .menu-button > .label {
+    -fx-text-fill: white;
+}
+
+.custom-menu-bar .menu-item > .label {
+    -fx-text-fill: white;
+}
+
+.custom-menu-bar .menu-item:focused {
+    -fx-background-color: #4a90e2;
+}
+
+.custom-menu-bar .menu-item:hover {
+    -fx-background-color: #4a90e2;
+}
+
+.custom-menu-bar .context-menu {
+    -fx-background-color: #091057;
+}
