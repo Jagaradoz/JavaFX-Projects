@@ -1,6 +1,6 @@
 # JavaFX Projects 💻
 
-This is my JavaFX project (has no license) I have been developing since 2024, for my presentation. It is designed to showcase my understanding of JavaFX programming and my ability to solve complex problems through graphical user interface (GUI) development. This project reflects my dedication to learning and my creativity in implementing effective solutions using JavaFX’s powerful features. I hope that by sharing this work, others can gain insights and inspiration for their own JavaFX projects. Please feel free to explore and utilize the code I have provided, as it may serve as a valuable resource for your own JavaFX programming endeavors.
+This is my JavaFX project I have been developing since 2024, for my presentation. It is designed to showcase my understanding of JavaFX programming and my ability to solve complex problems through graphical user interface (GUI) development. This project reflects my dedication to learning and my creativity in implementing effective solutions using JavaFX’s powerful features. I hope that by sharing this work, others can gain insights and inspiration for their own JavaFX projects. Please feel free to explore and utilize the code I have provided, as it may serve as a valuable resource for your own JavaFX programming endeavors.
 
 ![Static Badge](https://img.shields.io/badge/JavaFX%20-v23.0.0-blue) 
 
