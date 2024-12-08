@@ -16,4 +16,9 @@ This repository is organized into three main sections, each serving a distinct p
 
 ## Support This Repository ☕
 
-If you find this repository helpful, please consider following it and giving it a star. I would greatly appreciate your support. Thank you!
+If you find this repository helpful, consider supporting it by:
+
+-   **Following** the repository to stay updated with new content.
+-   **Starring** ⭐ it to show your appreciation.
+
+Your support motivates me to keep improving and sharing more valuable content. Thank you!
