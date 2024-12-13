@@ -1,5 +1,3 @@
-package application;
-
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.scene.paint.Color;
