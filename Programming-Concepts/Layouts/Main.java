@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        // PANES
+        // Panes:
         // Accordion            -> A container for collapsible TitledPanes, where only one can be expanded at a time.
         // AnchorPane           -> Allows nodes to be anchored to its edges with specified offsets.
         // BorderPane           -> Divides the layout into five regions: top, bottom, left, right, and center.
@@ -35,8 +35,8 @@ public class Main extends Application {
         TilePane tilePane = new TilePane();
         VBox vBox = new VBox();
 
-        // SCENE
-        // gives content of stages that contain (pane)
+        // Scene:
+        // It gives content of stages that contain (pane).
         Scene scene = new Scene(pane, 500, 500);
         stage.setScene(scene);
         stage.show();

@@ -32,12 +32,12 @@ class PageControllerTest {
     @Start
     public void start(Stage stage) {
         try {
-            // GET LOADER AND CONTROLLER
+            // Get loader and controller.
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Page.fxml"));
             Scene scene = new Scene(loader.load());
             controller = loader.getController();
 
-            // SET SCENE AND SHOW
+            // Set scene and show.
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -47,15 +47,15 @@ class PageControllerTest {
 
     @BeforeEach
     public void setUp() {
-        // CHECK THAT THE CONTROLLER IS NOT NULL
+        // Check that the controller is not null.
         assertNotNull(controller, "Controller should not be null");
     }
 
     @Test
     @DisplayName("All elements are loaded")
     public void allElementsAreLoaded(FxRobot robot) {
-        // CHECK CANVAS ELEMENT
-        // CHECK SCORE LABEL ELEMENT
+        // Check canvas element.
+        // Check score label element.
         Canvas canvas = robot.lookup("#canvas").queryAs(Canvas.class);
         Label scoreLabel = robot.lookup("#scoreLabel").queryAs(Label.class);
 
@@ -68,7 +68,7 @@ class PageControllerTest {
     public void canvasSizeIsCorrect(FxRobot robot) {
         Canvas canvas = robot.lookup("#canvas").queryAs(Canvas.class);
 
-        // CHECK THAT WIDTH AND HEIGHT ARE 420
+        // Check that width and height are 420.
         assertEquals(420, canvas.getWidth(), "Canvas width should be 420");
         assertEquals(420, canvas.getHeight(), "Canvas height should be 420");
     }
@@ -77,11 +77,11 @@ class PageControllerTest {
     @DisplayName("Start game works properly")
     public void startGameWorksProperly(FxRobot robot) {
         try {
-            // START GAME
+            // Start game.
             Platform.runLater(() -> controller.startGame());
             WaitForAsyncUtils.waitForFxEvents();
 
-            // ACCESS NEEDED FIELDS FOR TESTING
+            // Access needed fields for testing.
             Field gameOverField = PageController.class.getDeclaredField("gameOver");
             Field movePerDelayField = PageController.class.getDeclaredField("movePerDelay");
             Field snakeLengthField = PageController.class.getDeclaredField("snakeLength");
@@ -93,7 +93,7 @@ class PageControllerTest {
             Field appleXField = PageController.class.getDeclaredField("appleX");
             Field appleYField = PageController.class.getDeclaredField("appleY");
 
-            // SET ACCESSIBLE
+            // Set accessible.
             gameOverField.setAccessible(true);
             movePerDelayField.setAccessible(true);
             snakeLengthField.setAccessible(true);
@@ -105,7 +105,7 @@ class PageControllerTest {
             appleXField.setAccessible(true);
             appleYField.setAccessible(true);
 
-            // ASSERT GENERAL VALUES
+            // Assert general values.
             assertFalse((boolean) gameOverField.get(controller), "Game over should be false");
             assertFalse((boolean) movePerDelayField.get(controller), "Move per delay should be false");
             assertEquals(6, (int) snakeLengthField.get(controller), "Snake length should be 6");
@@ -113,19 +113,19 @@ class PageControllerTest {
             assertEquals('d', (char) directionField.get(controller), "Direction should be 'd'");
             assertNotNull(randField.get(controller), "Random object should not be null");
 
-            // ASSERT SNAKE POSITIONS
+            // Assert snake positions.
             int[] snakePosX = (int[]) snakePosXField.get(controller);
             int[] snakePosY = (int[]) snakePosYField.get(controller);
             assertEquals(PageController.SQUARE_PER_ROW * PageController.SQUARE_PER_ROW, snakePosX.length, "SnakePosX array length should be 28 * 28");
             assertEquals(PageController.SQUARE_PER_ROW * PageController.SQUARE_PER_ROW, snakePosY.length, "SnakePosY array length should be 28 * 28");
 
-            // ASSERT APPLE POSITIONS
+            // Assert apple positions.
             int appleX = (int) appleXField.get(controller);
             int appleY = (int) appleYField.get(controller);
             assertTrue(appleX >= 0 && appleX < 28, "Apple X should be within bounds");
             assertTrue(appleY >= 0 && appleY < 28, "Apple Y should be within bounds");
 
-            // ASSERT SCORE LABEL TEXT
+            // Assert score label text.
             Label scoreLabel = robot.lookup("#scoreLabel").queryAs(Label.class);
             assertEquals("Score: 0", scoreLabel.getText(), "Score label should display 'Score: 0'");
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -137,11 +137,11 @@ class PageControllerTest {
     @DisplayName("Collision should work properly")
     public void collisionShouldWorkProperly(FxRobot robot) {
         try {
-            // START GAME
+            // Start game.
             Platform.runLater(() -> controller.startGame());
             WaitForAsyncUtils.waitForFxEvents();
 
-            // ACCESS NEEDED FIELDS FOR TESTING
+            // Access needed fields for testing.
             Field snakePosXField = PageController.class.getDeclaredField("snakePosX");
             Field snakePosYField = PageController.class.getDeclaredField("snakePosY");
             Field appleXField = PageController.class.getDeclaredField("appleX");
@@ -150,7 +150,7 @@ class PageControllerTest {
             Field scoreField = PageController.class.getDeclaredField("score");
             Field gameOverField = PageController.class.getDeclaredField("gameOver");
 
-            // SET ACCESSIBLE
+            // Set accessible.
             snakePosXField.setAccessible(true);
             snakePosYField.setAccessible(true);
             appleXField.setAccessible(true);
@@ -159,7 +159,7 @@ class PageControllerTest {
             scoreField.setAccessible(true);
             gameOverField.setAccessible(true);
 
-            // TEST COLLISION WITH APPLE
+            // Test collision with apple.
             int[] snakePosX = (int[]) snakePosXField.get(controller);
             int[] snakePosY = (int[]) snakePosYField.get(controller);
 
@@ -173,7 +173,7 @@ class PageControllerTest {
             assertEquals(1, (int) scoreField.get(controller), "Score should increase after eating apple");
             assertEquals(7, (int) snakeLengthField.get(controller), "Snake length should increase after eating apple");
 
-            // TEST COLLISION WITH BOUNDS
+            // Test collision with bounds.
             snakePosX[0] = PageController.SQUARE_PER_ROW;
             snakePosY[0] = 5;
             Platform.runLater(() -> controller.collide());
@@ -181,11 +181,11 @@ class PageControllerTest {
 
             assertTrue((boolean) gameOverField.get(controller), "Game should be over after hitting bounds");
 
-            // RESET GAME AFTER HIT THE BOUNDS
+            // Reset game after hit the bounds.
             Platform.runLater(() -> controller.startGame());
             WaitForAsyncUtils.waitForFxEvents();
 
-            // TEST COLLISION WITH ITSELF
+            // Test collision with itself.
             snakePosX = (int[]) snakePosXField.get(controller);
             snakePosY = (int[]) snakePosYField.get(controller);
             snakePosX[0] = 5;

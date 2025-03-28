@@ -59,7 +59,7 @@ public class PageController implements Initializable {
     }
 
     public void startGame() {
-        // SET DEFAULT VALUES
+        // Set default values.
         gameOver = false;
         movePerDelay = false;
         snakeLength = 6;
@@ -70,7 +70,7 @@ public class PageController implements Initializable {
         snakePosX = new int[SQUARE_PER_ROW * SQUARE_PER_ROW];
         snakePosY = new int[SQUARE_PER_ROW * SQUARE_PER_ROW];
 
-        // SNAKE STARTS AT THE CENTER OF THE BOARD
+        // Snake starts at the center of the board.
         int startX = SQUARE_PER_ROW / 4;
         int startY = SQUARE_PER_ROW / 2;
         for (int i = 0; i < snakeLength; i++) {
@@ -78,7 +78,7 @@ public class PageController implements Initializable {
             snakePosY[i] = startY;
         }
 
-        // RANDOMIZE APPLE POSITION
+        // Randomize apple position.
         appleX = rand.nextInt(SQUARE_PER_ROW);
         appleY = rand.nextInt(SQUARE_PER_ROW);
 
@@ -88,7 +88,7 @@ public class PageController implements Initializable {
             gameTimer.stop();
         }
 
-        // ANIMATION TIMER
+        // Animation timer.
         gameTimer = new AnimationTimer() {
             long lastUpdate = 0;
 
@@ -112,7 +112,7 @@ public class PageController implements Initializable {
     }
 
     public void drawBoard() {
-        // DRAW BOARD BACKGROUND AND GRID LINE
+        // Draw board background and grid line.
         gc.setFill(Color.rgb(148, 193, 30));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -125,14 +125,14 @@ public class PageController implements Initializable {
     }
 
     public void drawApple() {
-        // DRAW APPLE
+        // Draw apple.
         gc.setFill(Color.RED);
         gc.fillRect(appleX * SQUARE_SIZE + 1.5, appleY * SQUARE_SIZE + 1.5,
                 SQUARE_SIZE - 3, SQUARE_SIZE - 3);
     }
 
     public void drawSnake() {
-        // DRAW SNAKE BODY
+        // Draw snake body.
         for (int i = 0; i < snakeLength; i++) {
             gc.setFill(i == 0 ? Color.DARKGREEN : Color.GREEN);
             gc.fillRect(snakePosX[i] * SQUARE_SIZE, snakePosY[i] * SQUARE_SIZE,
@@ -141,13 +141,13 @@ public class PageController implements Initializable {
     }
 
     public void moveSnake() {
-        // MOVE SNAKE EACH STEP
+        // Move snake each step.
         for (int i = snakeLength - 1; i > 0; i--) {
             snakePosX[i] = snakePosX[i - 1];
             snakePosY[i] = snakePosY[i - 1];
         }
 
-        // CHANGE DIRECTION
+        // Change direction.
         switch (direction) {
             case 'w':
                 snakePosY[0]--;
@@ -167,7 +167,7 @@ public class PageController implements Initializable {
     }
 
     public void collide() {
-        // CHECK COLLISION WITH AN APPLE
+        // Check collision with an apple.
         if (snakePosX[0] == appleX && snakePosY[0] == appleY) {
             score++;
             snakeLength++;
@@ -177,14 +177,14 @@ public class PageController implements Initializable {
             appleY = rand.nextInt(SQUARE_PER_ROW);
         }
 
-        // CHECK COLLISION WITH BOARD BOUNDS
+        // Check collision with board bounds.
         if (snakePosX[0] >= SQUARE_PER_ROW || snakePosY[0] >= SQUARE_PER_ROW ||
                 snakePosX[0] < 0 || snakePosY[0] < 0) {
             gameOver();
             return;
         }
 
-        // CHECK COLLISION WITH ITSELF
+        // Check collision with itself.
         for (int i = 1; i < snakeLength; i++) {
             if (snakePosX[0] == snakePosX[i] && snakePosY[0] == snakePosY[i]) {
                 gameOver();
@@ -194,8 +194,8 @@ public class PageController implements Initializable {
     }
 
     private void gameOver() {
-        // STOP TIMER
-        // SET GAME OVER TO TRUE
+        // Stop timer.
+        // Set game over to true.
         gameTimer.stop();
         gameOver = true;
 
@@ -205,7 +205,7 @@ public class PageController implements Initializable {
         String gameOverText = "Game Over";
         String restartText = "Press space bar to restart";
 
-        // ADJUST GAME OVER TEXT
+        // Adjust game over text.
         Text gameOverTextNode = new Text(gameOverText);
         gameOverTextNode.setFont(gc.getFont());
         double gameOverWidth = gameOverTextNode.getLayoutBounds().getWidth();
@@ -218,7 +218,7 @@ public class PageController implements Initializable {
 
         gc.setFont(javafx.scene.text.Font.font("Consolas", 24));
 
-        // ADJUST RESTART TEXT
+        // Adjust restart text.
         Text restartTextNode = new Text(restartText);
         restartTextNode.setFont(gc.getFont());
         double restartWidth = restartTextNode.getLayoutBounds().getWidth();
@@ -230,7 +230,7 @@ public class PageController implements Initializable {
     }
 
     private void handleKeyPress(KeyEvent event) {
-        // HANDLE RESTART ON SPACE BAR
+        // Handle restart on space bar.
         if (gameOver) {
             if (event.getCode() == KeyCode.SPACE) {
                 startGame();
@@ -238,7 +238,7 @@ public class PageController implements Initializable {
             return;
         }
 
-        // HANDLE DIRECTIONAL KEYS
+        // Handle directional keys.
         if (!movePerDelay) {
             switch (event.getCode()) {
                 case W:

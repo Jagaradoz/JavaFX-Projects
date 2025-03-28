@@ -45,58 +45,58 @@ public class MusicPlayerPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // IMPLEMENTS LIST VIEW
+        // Implements list view.
         listView.setItems(getSongNames());
         listView.getSelectionModel().selectedIndexProperty().addListener((_, _, newValue) -> setSong(newValue.intValue()));
 
-        // IMPLEMENTS VOLUME SLIDER
+        // Implements volume slider.
         volumeSlider.setValue(100);
         volumeSlider.valueProperty().addListener((_, _, newValue) -> setVolume(newValue));
 
-        // IMPLEMENTS PLAY/PAUSE/STOP BUTTONS
+        // Implements play/pause/stop buttons.
         playButton.setOnAction(this::playSong);
         prevButton.setOnAction(this::prevSong);
         nextButton.setOnAction(this::nextSong);
 
-        // IMPLEMENTS LOAD SONGS BUTTON
+        // Implements load songs button.
         loadSongsButton.setOnAction((_) -> loadSongs());
 
-        // IMPLEMENTS PROGRESS BAR
+        // Implements progress bar.
         progressBar.setOnMouseClicked(this::setProgressBarSeekHandler);
     }
 
     public void updateTimeLabels() {
-        // FORMATS TIME (00:00)
+        // Formats time (00:00).
         String currentTimeString = formatTime(currentTime);
         String totalTimeString = formatTime(totalTime);
 
-        // SETS TEXT
+        // Sets text.
         currentTimeLabel.setText(currentTimeString);
         totalTimeLabel.setText(totalTimeString);
     }
 
     public void setSong(int index) {
-        // CHECKS VALID INDEX
-        // DISPOSES MUSIC PLAYER
+        // Checks valid index.
+        // Disposes music player.
         if (index < 0 || index >= getSongPaths().size()) return;
         if (musicPlayer != null) musicPlayer.dispose();
 
-        // GETS SONG PATH FROM INDEX
-        // LOADS MEDIA AND MEDIA PLAYER
+        // Gets song path from index.
+        // Loads media and media player.
         String path = getSongPaths().get(index);
         URI uri = new File(path).toURI();
         Media media = new Media(uri.toString());
         musicPlayer = new MediaPlayer(media);
         currentIndex = index;
 
-        // ADDS CHANGE LISTENER (TRACKING TIME) TO MUSIC PLAYER
+        // Adds change listener (tracking time) to music player.
         musicPlayer.currentTimeProperty().addListener((_, _, newValue) -> {
             currentTime = newValue.toSeconds();
             updateTimeLabels();
             progressBar.setProgress(currentTime / totalTime);
         });
 
-        // WAITS FOR MUSIC PLAYER'S READINESS
+        // Waits for music player's readiness.
         musicPlayer.setOnReady(() -> {
             totalTime = media.getDuration().toSeconds();
             updateTimeLabels();
@@ -122,22 +122,22 @@ public class MusicPlayerPageController implements Initializable {
     }
 
     public void loadSongs() {
-        // GETS SELECTED FILES FROM FILE CHOOSER
+        // Gets selected files from file chooser.
         List<File> selectedFiles = getSelectedFiles();
 
         if (selectedFiles == null) return;
 
-        // CLEARS CURRENT SONGS AND LISTVIEWS
+        // Clears current songs and listviews.
         getSongPaths().clear();
         getSongNames().clear();
 
-        // ADDS FILES TO LISTVIEWS AND SETS CURRENT SONG
+        // Adds files to listviews and sets current song.
         for (File file : selectedFiles) {
             getSongPaths().add(file.getAbsolutePath());
             getSongNames().add(file.getName());
         }
 
-        // SETS DEFAULT CURRENT SONG
+        // Sets default current song.
         if (!getSongPaths().isEmpty()) {
             setSong(0);
             listView.getSelectionModel().select(0);
@@ -147,7 +147,7 @@ public class MusicPlayerPageController implements Initializable {
     public void playSong(ActionEvent event) {
         if (musicPlayer == null) return;
 
-        // PLAYS OR PAUSES MUSIC PLAYER
+        // Plays or pauses music player.
         if (musicPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             musicPlayer.pause();
             playButton.setText("▶");
@@ -160,7 +160,7 @@ public class MusicPlayerPageController implements Initializable {
     public void nextSong(ActionEvent event) {
         if (musicPlayer == null) return;
 
-        // PLAYS NEXT SONG
+        // Plays next song.
         currentIndex = (currentIndex + 1) % getSongNames().size();
         listView.getSelectionModel().select(currentIndex);
         setSong(currentIndex);
@@ -169,7 +169,7 @@ public class MusicPlayerPageController implements Initializable {
     public void prevSong(ActionEvent event) {
         if (musicPlayer == null) return;
 
-        // PLAYS PREVIOUS SONG
+        // Plays previous song.
         currentIndex = (currentIndex - 1 + getSongNames().size()) % getSongNames().size();
         listView.getSelectionModel().select(currentIndex);
         setSong(currentIndex);
@@ -188,7 +188,7 @@ public class MusicPlayerPageController implements Initializable {
     }
 
     public String formatTime(double seconds) {
-        // FORMATS MINUTES AND REMAINING SECONDS
+        // Formats minutes and remaining seconds.
         int minutes = (int) (seconds / 60);
         int remainingSeconds = (int) (seconds % 60);
 
@@ -196,12 +196,12 @@ public class MusicPlayerPageController implements Initializable {
     }
 
     public List<File> getSelectedFiles() {
-        // CREATES FILE CHOOSER INSTANCE AND SETS FILTERS (*.mp3)
+        // Creates file chooser instance and sets filters (*.mp3).
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose MP3");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP3 Files", "*.mp3"));
 
-        // OPENS FILE CHOOSER DIALOG
+        // Opens file chooser dialog.
         return fileChooser.showOpenMultipleDialog(rootPane.getScene().getWindow());
     }
 
@@ -219,7 +219,7 @@ public class MusicPlayerPageController implements Initializable {
 
     @FXML
     public void setProgressBarSeekHandler(MouseEvent event) {
-        // CALCULATES NEW TIME BASED ON MOUSE POSITION
+        // Calculates new time based on mouse position.
         if (musicPlayer != null && totalTime > 0) {
             double mouseX = event.getX();
             double width = progressBar.getWidth();
@@ -227,6 +227,4 @@ public class MusicPlayerPageController implements Initializable {
             musicPlayer.seek(Duration.seconds(newTime));
         }
     }
-
-
 }

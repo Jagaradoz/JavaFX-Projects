@@ -15,11 +15,11 @@ import javafx.application.Application;
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // GETS MUSIC PLAYER PAGE (.FXML)
+        // Get music player page (.FXML).
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/MusicPlayerPage.fxml")));
         Scene scene = new Scene(root);
 
-        // GETS IMAGE ICON
+        // Get image icon.
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icon.png")));
 
         stage.setTitle("Music Player");
@@ -28,7 +28,7 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
 
-        // CENTERS THE WINDOW ON THE SCREEN
+        // Center the window on the screen.
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);

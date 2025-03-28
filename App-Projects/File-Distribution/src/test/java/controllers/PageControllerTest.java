@@ -39,15 +39,15 @@ class PageControllerTest {
 
     @Start
     public void start(Stage stage) throws Exception {
-        // GET FXML PAGE
+        // Get fxml page.
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/views/Page.fxml")));
 
-        // SPY ON CONTROLLER
-        // SET THE CONTROLLER
+        // Spy on controller.
+        // Set the controller.
         spyController = spy(PageController.class);
         loader.setControllerFactory((_) -> spyController);
 
-        // SET UP THE STAGE
+        // Set up the stage.
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.show();
@@ -56,42 +56,42 @@ class PageControllerTest {
     @Test
     @DisplayName("All fxml elements should not be null and visible")
     public void allElementsTest(FxRobot robot) {
-        // ASSERT THAT NAME LABEL EXISTS
+        // Assert that name label exists.
         Label nameLabel = robot.lookup("#nameLabel").query();
         assertNotNull(nameLabel, "nameLabel should not be null");
         assertTrue(nameLabel.isVisible(), "nameLabel should be visible");
 
-        // ASSERT THAT TYPE LABEL EXISTS
+        // Assert that type label exists.
         Label typeLabel = robot.lookup("#typeLabel").query();
         assertNotNull(typeLabel, "typeLabel should not be null");
         assertTrue(typeLabel.isVisible(), "typeLabel should be visible");
 
-        // ASSERT THAT SIZE LABEL EXISTS
+        // Assert that size label exists.
         Label sizeLabel = robot.lookup("#sizeLabel").query();
         assertNotNull(sizeLabel, "sizeLabel should not be null");
         assertTrue(sizeLabel.isVisible(), "sizeLabel should be visible");
 
-        // ASSERT THAT LOCATION LABEL EXISTS
+        // Assert that location label exists.
         Label locationLabel = robot.lookup("#locationLabel").query();
         assertNotNull(locationLabel, "locationLabel should not be null");
         assertTrue(locationLabel.isVisible(), "locationLabel should be visible");
 
-        // ASSERT THAT DATE MODIFIED LABEL EXISTS
+        // Assert that date modified label exists.
         Label dateModifiedLabel = robot.lookup("#dateModifiedLabel").query();
         assertNotNull(dateModifiedLabel, "dateModifiedLabel should not be null");
         assertTrue(dateModifiedLabel.isVisible(), "dateModifiedLabel should be visible");
 
-        // ASSERT THAT PIE CHART EXISTS
+        // Assert that pie chart exists.
         PieChart pieChart = robot.lookup("#pieChart").query();
         assertNotNull(pieChart, "pieChart should not be null");
         assertTrue(pieChart.isVisible(), "pieChart should be visible");
 
-        // ASSERT THAT IMAGE VIEW EXISTS
+        // Assert that image view exists.
         ImageView imageView = robot.lookup("#imageView").query();
         assertNotNull(imageView, "imageView should not be null");
         assertTrue(imageView.isVisible(), "imageView should be visible");
 
-        // ASSERT THAT TREE VIEW EXISTS
+        // Assert that tree view exists.
         TreeView<String> treeView = robot.lookup("#treeView").query();
         assertNotNull(treeView, "treeView should not be null");
         assertTrue(treeView.isVisible(), "treeView should be visible");
@@ -101,14 +101,14 @@ class PageControllerTest {
     @DisplayName("ImageNotFound should be shown when image does not exist")
     public void imageNotFoundTest(FxRobot robot) {
         try {
-            // GET IMAGE NOT FOUND PATH FIELD
-            // SET THE FIELD ACCESSIBLE
-            // GET PATH FROM THE FIELD
+            // Get image not found path field.
+            // Set the field accessible.
+            // Get path from the field.
             Field imageNotFoundPath = spyController.getClass().getDeclaredField("imageNotFoundPath");
             imageNotFoundPath.setAccessible(true);
             String path = (String) imageNotFoundPath.get(spyController);
 
-            // ASSERT THAT IMAGE NOT FOUND PATH EXISTS
+            // Assert that image not found path exists.
             assertNotNull(imageNotFoundPath, "imageNotFoundPath should not be null");
             assertNotNull(path, "imageNotFoundPath value should not be null");
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -119,42 +119,42 @@ class PageControllerTest {
     @Test
     @DisplayName("Tree view root should be '<Select Folder>'")
     public void treeViewRootTest(FxRobot robot) {
-        // GET TREE VIEW ROOT
+        // Get tree view root.
         TreeView<String> treeView = robot.lookup("#treeView").query();
         TreeItem<String> root = treeView.getRoot();
 
-        // ASSERT THAT TREE VIEW ROOT IS '<Select Folder>'
+        // Assert that tree view root is '<Select Folder>'.
         assertEquals("<Select Folder>", root.getValue(), "Tree view root should be '<Select Folder>'");
     }
 
     @Test
     @DisplayName("Tree view should select file and show details")
     public void treeViewSelectFileTest(FxRobot robot) throws URISyntaxException, TimeoutException {
-        // MOCK GET SELECTED FOLDER METHOD
+        // Mock get selected folder method.
         mockGetSelectedFolderMethod();
 
-        // GET TREE VIEW
+        // Get tree view.
         TreeView<String> treeView = robot.lookup("#treeView").query();
 
-        // SELECT A FOLDER TO DISTRIBUTE
+        // Select a folder to distribute.
         Platform.runLater(() -> spyController.selectFolder());
         WaitForAsyncUtils.waitFor(5, TimeUnit.SECONDS, () -> !treeView.getRoot().getChildren().isEmpty());
 
-        // SELECT A SUB FILE/FOLDER
+        // Select a sub file/folder.
         Platform.runLater(() -> treeView.getSelectionModel().select(treeView.getRoot().getChildren().getFirst()));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // GET THE SELECTED ITEM NODE
+        // Get the selected item node.
         TreeItem<String> selectedItem = treeView.getSelectionModel().getSelectedItem();
 
-        // GET THE DETAILS
+        // Get the details.
         Label nameLabel = robot.lookup("#nameLabel").query();
         Label typeLabel = robot.lookup("#typeLabel").query();
         Label sizeLabel = robot.lookup("#sizeLabel").query();
         Label locationLabel = robot.lookup("#locationLabel").query();
         Label dateModifiedLabel = robot.lookup("#dateModifiedLabel").query();
 
-        // ASSERT THAT THE DETAILS ARE UPDATED
+        // Assert that the details are updated.
         assertNotNull(selectedItem, "Selected item should not be null");
         assertNotEquals("Name: -", nameLabel.getText(), "Name should be updated");
         assertNotEquals("Type: -", typeLabel.getText(), "Type should be updated");
@@ -162,61 +162,61 @@ class PageControllerTest {
         assertNotEquals("Location: -", locationLabel.getText(), "Location should be updated");
         assertNotEquals("Date Modified: -", dateModifiedLabel.getText(), "Date Modified should be updated");
 
-        // VERIFY SELECTED FOLDER
+        // Verify selected folder.
         verifySelectFolder();
     }
 
     @Test
     @DisplayName("populateTreeView should work correctly")
     public void populateTreeViewTest(FxRobot robot) throws URISyntaxException, TimeoutException {
-        // MOCK GET SELECTED FOLDER METHOD
+        // Mock get selected folder method.
         mockGetSelectedFolderMethod();
 
-        // GET TREE VIEW
+        // Get tree view.
         TreeView<String> treeView = robot.lookup("#treeView").query();
 
-        // SELECT A FOLDER TO DISTRIBUTE
+        // Select a folder to distribute.
         Platform.runLater(() -> spyController.selectFolder());
         WaitForAsyncUtils.waitFor(5, TimeUnit.SECONDS, () -> !treeView.getRoot().getChildren().isEmpty());
 
-        // ASSERT THAT POPULATE TREE VIEW CORRECTLY
+        // Assert that populate tree view correctly.
         assertNotNull(treeView.getRoot(), "Tree view root should not be null");
         assertEquals("txt", treeView.getRoot().getValue(), "Root should be named 'txt'");
         assertFalse(treeView.getRoot().getChildren().isEmpty(), "Root should have children");
 
-        // VERIFY SELECTED FOLDER
+        // Verify selected folder.
         verifySelectFolder();
     }
 
     @Test
     @DisplayName("updatePieChart should work correctly")
     public void updatePieChartTest(FxRobot robot) throws URISyntaxException {
-        // MOCK GET SELECTED FOLDER METHOD
+        // Mock get selected folder method.
         mockGetSelectedFolderMethod();
 
-        // GET PIE CHART
+        // Get pie chart.
         PieChart pieChart = robot.lookup("#pieChart").query();
 
-        // SELECT A FOLDER TO DISTRIBUTE
+        // Select a folder to distribute.
         Platform.runLater(() -> spyController.selectFolder());
         WaitForAsyncUtils.waitForFxEvents();
 
-        // ASSERT THAT UPDATE PIE CHART CORRECTLY
+        // Assert that update pie chart correctly.
         assertFalse(pieChart.getData().isEmpty(), "Pie chart should have data");
         assertEquals(1, pieChart.getData().size(), "Pie chart should have 1 extensions (*.txt)");
 
-        // VERIFY SELECTED FOLDER
+        // Verify selected folder.
         verifySelectFolder();
     }
 
     @Test
     @DisplayName("isImage should work correctly")
     public void isImageTest() throws URISyntaxException {
-        // GET FILES TO TEST
+        // Get files to test.
         File imageNotFound = new File(Objects.requireNonNull(getClass().getResource("/images/imageNotFound.png")).toURI());
         File test1 = new File(Objects.requireNonNull(getClass().getResource("/txt/test1.txt")).toURI());
 
-        // ASSERT THAT IS IMAGE METHOD WORKS CORRECTLY
+        // Assert that is image method works correctly.
         assertTrue(spyController.isImage(imageNotFound), "imageNotFound.png should be an image");
         assertFalse(spyController.isImage(test1), "test1.txt should not be an image");
     }
@@ -224,11 +224,11 @@ class PageControllerTest {
     @Test
     @DisplayName("getFileExtension should work correctly")
     public void getFileExtensionTest() throws URISyntaxException {
-        // GET FILES TO TEST
+        // Get files to test.
         File imageNotFound = new File(Objects.requireNonNull(getClass().getResource("/images/imageNotFound.png")).toURI());
         File test1 = new File(Objects.requireNonNull(getClass().getResource("/txt/test1.txt")).toURI());
 
-        // ASSERT THAT GET FILE EXTENSION METHOD WORKS CORRECTLY
+        // Assert that get file extension method works correctly.
         assertEquals("*.png", spyController.getFileExtension(imageNotFound), "imageNotFound.png should have extension 'png'");
         assertEquals("*.txt", spyController.getFileExtension(test1), "test1.txt should have extension 'txt'");
     }
@@ -236,116 +236,116 @@ class PageControllerTest {
     @Test
     @DisplayName("getGithub should open a new browser window")
     public void getGithubTest(FxRobot robot) throws NoSuchFieldException, IllegalAccessException, URISyntaxException, IOException {
-        // GET MOCKED DESKTOP
+        // Get mocked desktop.
         Desktop mockDesktop = mock(Desktop.class);
 
-        // GET DESKTOP FIELD AND SET NEW VALUE TO THE FIELD
+        // Get desktop field and set new value to the field.
         Field desktopField = PageController.class.getDeclaredField("desktop");
         desktopField.setAccessible(true);
         desktopField.set(spyController, mockDesktop);
 
-        // GET GITHUB
+        // Get github.
         spyController.getGithub();
 
-        // VERIFY THAT GITHUB IS OPENED
+        // Verify that github is opened.
         verify(mockDesktop).browse(new URI("https://github.com/Jagaradoz/JavaFX-Projects"));
     }
 
     @Test
     @DisplayName("clearFolder should clear all data")
     public void clearFolderTest(FxRobot robot) throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        // MOCK GET SELECTED FOLDER METHOD
+        // Mock get selected folder method.
         mockGetSelectedFolderMethod();
 
-        // SELECT A FOLDER TO DISTRIBUTE
+        // Select a folder to distribute.
         Platform.runLater(() -> spyController.selectFolder());
         WaitForAsyncUtils.waitForFxEvents();
 
-        // CLEAR SELECTED FOLDER
+        // Clear selected folder.
         Platform.runLater(() -> spyController.clearFolder());
         WaitForAsyncUtils.waitForFxEvents();
 
-        // ASSERT THAT PIE CHART IS CLEARED
+        // Assert that pie chart is cleared.
         PieChart pieChart = robot.lookup("#pieChart").query();
         assertTrue(pieChart.getData().isEmpty(), "PieChart should be empty after clearing");
 
-        // ASSERT THAT TREE VIEW IS CLEARED
+        // Assert that tree view is cleared.
         TreeView<String> treeView = robot.lookup("#treeView").query();
         assertEquals("<Select Folder>", treeView.getRoot().getValue(), "TreeView root should be reset to '<Select Folder>'");
 
-        // GET THE DETAILS
+        // Get the details.
         Label nameLabel = robot.lookup("#nameLabel").query();
         Label typeLabel = robot.lookup("#typeLabel").query();
         Label sizeLabel = robot.lookup("#sizeLabel").query();
         Label locationLabel = robot.lookup("#locationLabel").query();
         Label dateModifiedLabel = robot.lookup("#dateModifiedLabel").query();
 
-        // ASSERT THAT DETAILS ARE CLEARED
+        // Assert that details are cleared.
         assertEquals("Name: -", nameLabel.getText(), "Name label should be reset");
         assertEquals("Type: -", typeLabel.getText(), "Type label should be reset");
         assertEquals("Size: -", sizeLabel.getText(), "Size label should be reset");
         assertEquals("Location: -", locationLabel.getText(), "Location label should be reset");
         assertEquals("Date Modified: -", dateModifiedLabel.getText(), "Date Modified label should be reset");
 
-        // ASSERT THAT IMAGES ARE CLEARED
+        // Assert that images are cleared.
         ImageView imageView = robot.lookup("#imageView").query();
         assertNull(imageView.getImage(), "ImageView should be cleared");
 
-        // VERIFY CLEAR FOLDER
+        // Verify clear folder.
         verify(spyController).clearFolder();
 
-        // GET SELECTED FILES CLASS
-        // GET SELECTED EXTENSIONS CLASS
+        // Get selected files class.
+        // Get selected extensions class.
         Field selectedFilesClass = PageController.class.getDeclaredField("selectedFiles");
         Field selectedExtensionsClass = PageController.class.getDeclaredField("selectedExtensions");
 
-        // SET ACCESSIBLE
+        // Set accessible.
         selectedFilesClass.setAccessible(true);
         selectedExtensionsClass.setAccessible(true);
 
-        // GET SELECTED FILES AND EXTENSIONS FROM CONTROLLER
+        // Get selected files and extensions from controller.
         @SuppressWarnings("unchecked") Map<String, File> selectedFiles = (Map<String, File>) selectedFilesClass.get(spyController);
         @SuppressWarnings("unchecked") Map<String, Integer> selectedExtensions = (Map<String, Integer>) selectedExtensionsClass.get(spyController);
 
-        // ASSERT THAT SELECTED FILES AND EXTENSIONS ARE CLEARED
+        // Assert that selected files and extensions are cleared.
         assertTrue(selectedFiles.isEmpty(), "selectedFiles should be empty");
         assertTrue(selectedExtensions.isEmpty(), "selectedExtensions should be empty");
     }
 
     public void mockGetSelectedFolderMethod() throws URISyntaxException {
-        // GET TXT FOLDER
+        // Get txt folder.
         URI path = Objects.requireNonNull(getClass().getResource("/txt")).toURI();
         File mockFolder = new File(path);
 
-        // MOCK GET SELECTED FOLDER METHOD
+        // Mock get selected folder method.
         doReturn(mockFolder).when(spyController).getSelectedFolder();
     }
 
     public void verifySelectFolder() {
-        // VERIFY SELECTED FOLDER
+        // Verify selected folder.
         verify(spyController).selectFolder();
 
-        // FILE CAPTOR
+        // File captor.
         ArgumentCaptor<File> fileCaptor = ArgumentCaptor.forClass(File.class);
 
-        // TREE ITEM CAPTOR
+        // Tree item captor.
         @SuppressWarnings("unchecked")
         ArgumentCaptor<TreeItem<String>> treeItemCaptor = ArgumentCaptor.forClass(TreeItem.class);
 
-        // VERIFY POPULATE TREE VIEW
+        // Verify populate tree view.
         verify(spyController).populateTreeView(fileCaptor.capture(), treeItemCaptor.capture());
 
-        // GET VALUES FROM CAPTORS
+        // Get values from captors.
         File capturedFile = fileCaptor.getValue();
         TreeItem<String> capturedTreeItem = treeItemCaptor.getValue();
 
-        // ASSERT THAT SELECTED FOLDER IS PASSED CORRECTLY
+        // Assert that selected folder is passed correctly.
         assertNotNull(capturedFile, "Captured File should not be null");
         assertEquals("txt", capturedFile.getName(), "Captured File name should be 'txt'");
         assertNotNull(capturedTreeItem, "Captured TreeItem should not be null");
         assertEquals("txt", capturedTreeItem.getValue(), "Captured TreeItem value should be 'txt'");
 
-        // VERIFY UPDATE PIE CHART
+        // Verify update pie chart.
         verify(spyController).updatePieChart();
     }
 }

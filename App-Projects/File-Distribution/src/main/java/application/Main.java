@@ -15,15 +15,15 @@ import javafx.application.Application;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // GET THE PAGE FXML AND ADDS IT TO THE SCENE
+        // Get the page FXML and add it to the scene.
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Page.fxml")));
         Scene scene = new Scene(root);
 
-        // ADD CSS STYLE TO SCENE
+        // Add CSS style to scene.
         String css = Objects.requireNonNull(getClass().getResource("/css/styles.css")).toExternalForm();
         scene.getStylesheets().add(css);
 
-        // ADD ICON TO THE STAGE
+        // Add icon to the stage.
         Image icon = new Image(Objects.requireNonNull(getClass().getResource("/images/icon.png")).toExternalForm());
 
         stage.getIcons().add(icon);
@@ -32,7 +32,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        // CENTER THE WINDOW ON THE SCREEN
+        // Center the window on the screen.
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);

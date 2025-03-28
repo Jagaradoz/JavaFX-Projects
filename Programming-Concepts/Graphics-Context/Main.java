@@ -11,12 +11,12 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // NEED ACTUAL CANVAS TO GET GRAPHICS CONTEXT
+        // Need actual canvas to get graphics context.
         Canvas canvas = new Canvas(500, 500);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // ADDITIONAL SETUP
+        // Additional Setup:
         // .setFill()           -> set fill color
         // .setStroke()         -> set stroke color
         // .setLineWidth()      -> set width of stroke
@@ -37,7 +37,7 @@ public class Main extends Application {
         gc.scale(2, 2);
 
 
-        // DRAW SHAPES
+        // Draw Shapes:
         // .fillRect()           -> fill rectangle
         // .fillPolygon()        -> fill polygon
         // .fillOval()           -> fill oval
@@ -58,7 +58,7 @@ public class Main extends Application {
         gc.strokeLine(500, 150, 600, 150);
         gc.strokePolyline(new double[]{10, 20, 30, 40}, new double[]{10, 20, 10, 20}, 4);
 
-        // CANVAS OPERATIONS
+        // Canvas Operations:
         // .save()              -> save current state of graphics context
         // .restore()           -> restore state of graphics context
         // .clearRect(...)      -> redraw canvas e.g. super.paintComponent(g)

@@ -44,11 +44,11 @@ public class PageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // SET TREE VIEW ROOT
+        // Set tree view root.
         TreeItem<String> root = new TreeItem<>("<Select Folder>");
         treeView.setRoot(root);
 
-        // SET TREE VIEW SELECTION LISTENER
+        // Set tree view selection listener.
         treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) return;
             if (newValue.getValue().equals("<Select Folder>")) return;
@@ -58,20 +58,20 @@ public class PageController implements Initializable {
 
             if (file == null) return;
 
-            // GET FILE INFO
+            // Get file info.
             String type = file.isDirectory() ? "Directory" : "File";
             String dateModified = new java.text.SimpleDateFormat("yyyy/MM/dd").format(new java.util.Date(file.lastModified()));
             String fileLocation = file.getParent();
             String size = file.isDirectory() ? "-" : String.format("%.2f KB", file.length() / 1024.0);
 
-            // GET UPDATE INFO
+            // Get and update label info.
             nameLabel.setText("Name: " + fileName);
             typeLabel.setText("Type: " + type);
             dateModifiedLabel.setText("Date Modified: " + dateModified);
             locationLabel.setText("Location: " + fileLocation);
             sizeLabel.setText("Size: " + size);
 
-            // SET IMAGE INFO
+            // Set image preview.
             if (isImage(file)) {
                 try {
                     Image image = new Image(new FileInputStream(file));
@@ -86,12 +86,12 @@ public class PageController implements Initializable {
     }
 
     public void updatePieChart() {
-        // CREATE PIE CHART DATA
-        // GET TOTAL EXTENSIONS
+        // Create pie chart data.
+        // Get total extensions.
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         int totalFiles = selectedExtensions.values().stream().mapToInt(Integer::intValue).sum();
 
-        // LOOP THROUGH SELECTED EXTENSIONS
+        // Loop through selected extensions.
         for (Map.Entry<String, Integer> entry : selectedExtensions.entrySet()) {
             int count = entry.getValue();
             double percentage = (count * 100.0) / totalFiles;
@@ -99,7 +99,7 @@ public class PageController implements Initializable {
             String extension = entry.getKey();
             String label = String.format("%s: %.1f%% (%d)", extension, percentage, count);
 
-            // ADD DATA TO PIE CHART
+            // Add data to pie chart.
             pieChartData.add(new PieChart.Data(label, count));
         }
 
@@ -115,22 +115,22 @@ public class PageController implements Initializable {
     public void populateTreeView(File directory, TreeItem<String> parent) {
         File[] files = directory.listFiles();
         if (files != null) {
-            // LOOP THROUGH FILES
+            // Loop through files.
             for (File file : files) {
                 TreeItem<String> item = new TreeItem<>(file.getName());
                 parent.getChildren().add(item);
 
-                // ADD TO SELECTED FILES
+                // Add to selected files.
                 selectedFiles.put(file.getName(), file);
 
-                // IF IT IS A DIRECTORY, POPULATE TREE VIEW AGAIN
+                // If it is a directory, populate tree view again.
                 if (file.isDirectory()) {
                     populateTreeView(file, item);
                 } else {
-                    // CHECK FILE EXTENSION (*.jpg, *.java, No Extension)
+                    // Check file extension (e.g., *.jpg, *.java, or no extension).
                     String extension = getFileExtension(file);
 
-                    // ADD TO SELECTED EXTENSIONS
+                    // Add to selected extensions.
                     selectedExtensions.put(extension, selectedExtensions.getOrDefault(extension, 0) + 1);
                 }
             }
@@ -190,10 +190,10 @@ public class PageController implements Initializable {
 
     @FXML
     public void selectFolder() {
-        // GET SELECTED DIRECTORY
+        // Get selected directory.
         File selectedFolder = getSelectedFolder();
 
-        // CHECK IF THE SELECTED FOLDER EXISTS AND IS A DIRECTORY
+        // Check if the selected folder exists and is a directory.
         if (selectedFolder != null && selectedFolder.exists() && selectedFolder.isDirectory()) {
             TreeItem<String> root = new TreeItem<>(selectedFolder.getName());
             treeView.setRoot(root);
@@ -204,5 +204,4 @@ public class PageController implements Initializable {
             updatePieChart();
         }
     }
-
 }

@@ -75,7 +75,6 @@ public class MainTest {
             Image expectedIcon = new Image(Objects.requireNonNull(getClass().getResource("/images/icon.png")).toExternalForm());
             Image actualIcon = stage.getIcons().getFirst();
 
-            // ASSERT THAT EXPECTED ICON URL IS EQUAL TO ACTUAL ICON URL
             assertEquals(expectedIcon.getUrl(), actualIcon.getUrl(), "The icon URL should match the expected URL.");
         }
 
@@ -92,9 +91,6 @@ public class MainTest {
 
             Scene scene = stage.getScene();
 
-            // ASSERT THAT SCENE IS NOT NULL
-            // ASSERT THAT ROOT IS NOT NULL
-            // ASSERT THAT EXPECTED ROOT IS EQUAL TO SCENE ROOT
             assertNotNull(scene, "The SCENE should not be null.");
             assertInstanceOf(Pane.class, scene.getRoot(), "The root of the SCENE should be an instance of Pane.");
             assertEquals(expectedRoot.getClass(), scene.getRoot().getClass(), "The root of the SCENE should match the expected Pane.");
@@ -109,7 +105,6 @@ public class MainTest {
         double expectedX = (bounds.getWidth() - stage.getWidth()) / 2;
         double expectedY = (bounds.getHeight() - stage.getHeight()) / 2;
 
-        // ASSERT THAT X , Y COORDINATES ARE CLOSE ENOUGH
         assertEquals(expectedX, stage.getX(), 1.0);
         assertEquals(expectedY, stage.getY(), 1.0);
     }

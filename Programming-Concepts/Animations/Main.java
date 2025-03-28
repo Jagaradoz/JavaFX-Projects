@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        // Create a Rectangle
+        // Create a rectangle.
         Rectangle rectangle = new Rectangle(50, 50, Color.BLUE);
 
-        // TRANSITIONS
+        // Transitions.
         // FillTransition           -> Animates the fill color of a shape over time.
         // FadeTransition           -> Animates the opacity of a node, creating fade-in or fade-out effects.
         // ScaleTransition          -> Animates the size of a node by scaling it along the X, Y, and Z axes.
@@ -24,7 +24,7 @@ public class Main extends Application {
         RotateTransition rotate = new RotateTransition();
         TranslateTransition translate = new TranslateTransition();
 
-        // TRANSITION METHODS
+        // Transition methods.
         // .setNode(rectangle);                                 -> Specifies the node to animate.
         // .setByX(100);                                        -> Moves the node by 100 pixels along the X axis.
         // .setByY(100);                                        -> Moves the node by 100 pixels along the Y axis.
@@ -36,7 +36,7 @@ public class Main extends Application {
         // .setDelay(Duration.seconds(1));                      -> Delays the animation start by 1 second.
         // .setInterpolator(Interpolator.EASE_BOTH);            -> Smoothly eases in and out during the animation.
 
-        // Additional Methods
+        // Additional methods.
         // .setFromX(0);                                        -> Sets the starting X position for the animation.
         // .setFromY(0);                                        -> Sets the starting Y position for the animation.
         // .setToX(200);                                        -> Sets the ending X position for the animation.
@@ -54,7 +54,6 @@ public class Main extends Application {
         scale.setNode(rectangle);
         scale.setByX(100);
         scale.setByX(100);
-
     }
 
     public static void main(String[] args) {
